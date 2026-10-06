@@ -1,0 +1,114 @@
+{
+  "name": "workflow-chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "20d567d4-9a32-45c0-bcfd-fd5731c207ec",
+      "name": "When chat message received",
+      "webhookId": "49bdaeb1-dd98-4f7c-a8ae-d8c4ffdcc27f"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah asisten virtual ramah dari \"Toko Sepatu Impian\". Tugasmu adalah menjawab pertanyaan pelanggan seputar jam buka toko (09.00 - 21.00), lokasi toko (Jl. Merdeka No. 45), cara pemesanan, dan kebijakan pengembalian barang (maksimal 7 hari). Jawablah selalu dengan sopan, singkat, dan jelas."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "83bd101d-c390-41af-b257-a96b998a5670",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        208
+      ],
+      "id": "840fd92f-52a9-4f26-807c-76d09f1e56c1",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "xswwvibhBsvo3BaL",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        320,
+        208
+      ],
+      "id": "323a8d9d-15c1-43cf-9675-c99c97929cca",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d6f3227b-bea2-400d-81ad-e050c98bb418",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "GNpbwh1S23mepD1w",
+  "tags": []
+}
